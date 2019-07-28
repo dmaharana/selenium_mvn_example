@@ -11,6 +11,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
@@ -24,6 +25,7 @@ public class AppTest {
 	private String getSiteName;
 	private String pathWithFileNameSP;
 	private String pathWithFileNameRP;
+	private String firstResultPage;
 	private Boolean flag;
 
 	/**
@@ -38,12 +40,20 @@ public class AppTest {
 	public void gSearch() throws InterruptedException {
 		pathWithFileNameSP = "searchPage.png";
 		pathWithFileNameRP = "searchResPage.png";
+		firstResultPage = "frescoMe.png";
 		getSiteName = "fresco.me";
 
 		System.setProperty("webdriver.chrome.driver",
 				"chromedriver_linux64/chromedriver");
 
-		WebDriver driver = new ChromeDriver();
+//		WebDriver driver = new ChromeDriver();
+		
+		ChromeOptions chromeOptions = new ChromeOptions();
+//		chromeOptions.setBinary("/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary");
+		chromeOptions.addArguments("--headless");
+		
+		
+		WebDriver driver = new ChromeDriver(chromeOptions);
 
 		driver.get("https://google.com");
 
@@ -97,9 +107,12 @@ public class AppTest {
 
 		if (!flag) {
 			System.out.println("Did not find the search result............");
+		} else {
+			System.out.println("Found Fersco Play, taking screenshot............");
+			scrshot.takeSnapShot(driver, firstResultPage);
 		}
 
-		 driver.quit();
+		driver.quit();
 	}
 
 }
